@@ -1,5 +1,36 @@
 # Changelog
 
+## [2026.4.4](https://github.com/jdx/mise/compare/v2026.4.3..v2026.4.4) - 2026-04-04
+
+### 🚀 Features
+
+- **(dotnet)** support runtime-only installs by @fragon10 in [#8524](https://github.com/jdx/mise/pull/8524)
+
+### 🐛 Bug Fixes
+
+- **(docs)** use sans-serif font for badges by @jdx in [#8887](https://github.com/jdx/mise/pull/8887)
+- **(exec)** use i64::from() for seccomp syscall numbers to survive autofix by @jdx in [#8882](https://github.com/jdx/mise/pull/8882)
+- **(release)** verify all build targets succeed before releasing by @jdx in [#8886](https://github.com/jdx/mise/pull/8886)
+
+### New Contributors
+
+- @fragon10 made their first contribution in [#8524](https://github.com/jdx/mise/pull/8524)
+
+### 📦 Aqua Registry Updates
+
+#### New Packages (6)
+
+- [`ahkohd/oyo`](https://github.com/ahkohd/oyo)
+- [`bellicose100xp/jiq`](https://github.com/bellicose100xp/jiq)
+- [`kurama/dealve-tui`](https://github.com/kurama/dealve-tui)
+- [`micahkepe/jsongrep`](https://github.com/micahkepe/jsongrep)
+- [`textfuel/lazyjira`](https://github.com/textfuel/lazyjira)
+- [`ubugeeei/vize`](https://github.com/ubugeeei/vize)
+
+#### Updated Packages (1)
+
+- [`sigstore/cosign`](https://github.com/sigstore/cosign)
+
 ## [2026.4.3](https://github.com/jdx/mise/compare/v2026.4.2..v2026.4.3) - 2026-04-03
 
 ### 🐛 Bug Fixes
