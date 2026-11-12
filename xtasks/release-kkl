@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+#MISE description="Tag and publish a KKL Mise release"
+#MISE confirm="Create a release tag and start the KKL release workflow?"
+set -euo pipefail
+
+cd "${MISE_CONFIG_ROOT}"
+
+repo="KnickKnackLabs/mise"
+remote="https://github.com/${repo}.git"
+tag="$(sh scripts/get-version.sh)"
+head="$(git rev-parse HEAD)"
+
+if [[ ! "${tag}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+-kkl\.[0-9]+$ ]]; then
+    echo "Expected a fork version such as v2026.11.7-kkl.1" >&2
+    exit 1
+fi
+
+if [[ -n "$(git status --porcelain)" ]]; then
+    echo "Commit or resolve working-tree changes before releasing." >&2
+    exit 1
+fi
+
+# Release only the exact commit already on the fork's main branch.
+
+remote_head="$(gh api "repos/${repo}/git/ref/heads/main" --jq '.object.sha')"
+
+if [[ "${head}" != "${remote_head}" ]]; then
+    echo "HEAD differs from ${repo} main. Reconcile and push first." >&2
+    exit 1
+fi
+
+# Check that the workflow exists before creating release tag
+
+workflow_state="$(
+    gh api \
+        "repos/${repo}/actions/workflows/release-kkl.yml" \
+        --jq '.state'
+)"
+
+if [[ "${workflow_state}" != "active" ]]; then
+    echo "Enable the release workflow before tagging:" >&2
+    echo "gh workflow enable release-kkl.yml --repo ${repo}" >&2
+    exit 1
+fi
+
+git tag -s "${tag}" -m "KKL Mise ${tag}"
+git push "${remote}" "refs/tags/${tag}"
